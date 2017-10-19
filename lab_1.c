@@ -1,3 +1,10 @@
+// lab_1.c
+// аргументы передаются через командную строку в main
+// аргументы имеют вид: X Y или X, где X - вещественное число (температура), Y - буква, обозначающая шкалу температур(F, C, K - Фаренгейта, Цельсия, Кельвина, соответственно), регистр не имеет значения.
+// ./a.out 17
+// ./a.out 17 K
+
+
 #include<stdio.h>
 #include<stdlib.h>
 
@@ -31,7 +38,13 @@ int main(int argc, char *argv[])
 			printf("Incorrect arguments.\n"); 
 			return -1; 
 			} 
-			else printf(K, atof(argv[1]), KC(atof(argv[1])), CF(KC(atof(argv[1])))); break; }
+			else printf(K, atof(argv[1]), KC(atof(argv[1])), CF(KC(atof(argv[1])))); break;
+			default:
+			{
+				printf("Incorrect arguments.\n");
+				return -1;
+			}
+			}
 	else if(argc == 2)
 	{ 
 		if(atof(argv[1]) >= 0) printf(FCK, atof(argv[1]), FC(atof(argv[1])), CK(FC(atof(argv[1]))), atof(argv[1]), CF(atof(argv[1])), CK(atof(argv[1])), atof(argv[1]), KC(atof(argv[1])), CF(KC(atof(argv[1]))));
