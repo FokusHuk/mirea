@@ -1,3 +1,10 @@
+// infix_to_postfix.c
+// аргументы передаются через командную строку в main
+// аргументы имеют вид: "X", где X - выражение, которое необходимо перевести в постфиксную форму
+// ./a.out "(2 + 2) / 2"
+// ДЛЯ КОРРЕКТНОЙ РАБОТЫ! => необходимо справа и слева от знаков операций (+, -, *, /, %, ^) ставить пробелы, как в примере выше
+
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -12,7 +19,7 @@ typedef struct Stack stack_struct;
 typedef stack_struct *stack;
 
 int    isOperator(char);
-int    cmp(char, char);
+int    cmp(char, char); // сравнение приоритетов двух операций
 
 void   push(stack *, char);
 char   pop(stack *);
@@ -24,7 +31,7 @@ int main(int argc, char *argv[])
 		printf("No argument for program.\n");
 		exit(-1);
 	}
-    char infix[256], postfix[256];
+    char infix[256], postfix[256]; // два массива, для инфиксной и постфиксной записи данного выражения
 	int i, j;
 	i = 0;
 	j = 0;
@@ -46,9 +53,9 @@ int main(int argc, char *argv[])
 				    postfix[j] = ' ';
 					j++;
 					if(isOperator(st->data))
-						while(cmp(infix[i], st->data))
-							{
-								postfix[j] = pop(&st);
+						while(cmp(infix[i], st->data)) // пока верхний элемент стека содержит операцию и
+							{							// ее приоритет меньше приоритета текущей операции из infix[i]
+								postfix[j] = pop(&st);  // извлекать операции из стека в postfix
 								j++;
 								if(!isOperator(st->data))
 									break;
