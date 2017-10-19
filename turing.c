@@ -36,7 +36,7 @@ CodePtr cd = NULL; // указатель на список, содержащий
 int main()
 {
 	FILE *file;
-	char *line, *comment; // line - считывание очереднйо команды из файла, comment - считывание комментариев из файла
+	char *line, *comment; // line - считывание очередной команды из файла, comment - считывание комментариев из файла
 	comment = NULL;
 	add(&memory, 0);
 	if((line = malloc(sizeof(char) * 200)) == NULL)
