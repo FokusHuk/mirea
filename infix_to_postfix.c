@@ -25,7 +25,9 @@ int main(int argc, char *argv[])
 		exit(-1);
 	}
     char infix[256], postfix[256];
-	int i = 0, j = 0;
+	int i, j;
+	i = 0;
+	j = 0;
 	strncpy(infix, argv[1], strlen(argv[1]));
 	stack st = NULL;
 	push(&st, '(');
@@ -100,8 +102,10 @@ void push(stack *st, char symbol)
 
 char pop(stack *st)
 {
-	stack delete_st = *st;
-	char ret = (*st)->data;
+	stack delete_st;
+	char ret;
+	delete_st = *st;
+	ret = (*st)->data;
 	*st = (*st)->next;
 	free(delete_st);
 	return ret;
