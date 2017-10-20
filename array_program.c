@@ -1,25 +1,24 @@
-// array_program.c
-// не принимает аргументов
-// ./a.out
+/* array_program.c
+ не принимает аргументов командной строки */
 
 
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
 
-#define MAX_NUMBER 20 // максимальное значение элемента матрицы
-#define MIN_NUMBER MAX_NUMBER/2 // модуль минимального значения элемента матрицы
-#define MAX_M 1000 // максимальное кол-во строк матрицы
-#define MAX_N 1500 // максимальное кол-во столбцов матрицы
+#define MAX_NUMBER 20
+#define MIN_NUMBER MAX_NUMBER/2
+#define MAX_M 1000
+#define MAX_N 1500
 
-int M , N, C; // M - кол-во строк, N - кол-во столбцов первой матрицы; С - кол-во столбцов второй матрицы
+int M , N, C; /* M - кол-во строк, N - кол-во столбцов первой матрицы; С - кол-во столбцов второй матрицы */
 
-void reverse_first_last(int [][N]); // меняет местами первую и последнюю строки первой матрицы, затем меняет порядок элементов в ней на противоположный
-void print_array(int [][N]); // выводит элементы первой матрицы
-void delete_minlc(int [][N], int[][N-1]); // находит наименьший элемент в первой матрице, и удаляет строку и столбец на пересечении которых он находится
-void print_del_array(int [][N - 1]); // выводит получившуюся матрицу
-void create_new_array(int[][C]); // создает новую матрицу (элементы вводит пользователь) и выводит ее
-void multiplication_of_arrays(int [][N-1], int [][C]); // перемножает первую и вторую матрицы
+void reverse_first_last(int [][N]); /* меняет местами первую и последнюю строки первой матрицы, затем меняет порядок элементов в ней на противоположный */
+void print_array(int [][N]); /* выводит элементы первой матрицы */
+void delete_minlc(int [][N], int[][N-1]); /*находит наименьший элемент в первой матрице, и удаляет строку и столбец на пересечении которых он находится */
+void print_del_array(int [][N - 1]); /* выводит получившуюся матрицу */
+void create_new_array(int[][C]); /* создает новую матрицу (элементы вводит пользователь) и выводит ее */
+void multiplication_of_arrays(int [][N-1], int [][C]); /* перемножает первую и вторую матрицы */
 
 int main()
 {
@@ -30,7 +29,7 @@ int main()
 		printf("enter m and n:\n");
 		scanf("%d%d", &M, &N);
 	}
-	int array[M][N]; // ПЕРВАЯ МАТРИЦА (с произвольными элементами)
+	int array[M][N]; /* ПЕРВАЯ МАТРИЦА (с произвольными элементами) */
 	printf("\nARRAY:\n");
 	for(i = 0; i < M; i ++)
 		for(j = 0; j < N; j++)
@@ -43,13 +42,13 @@ int main()
 	reverse_first_last(array);
 	print_array(array);
 	
-	int del_array[M-1][N-1]; // матрица, на порядок меньше первой
+	int del_array[M-1][N-1]; /* матрица, на порядок меньше первой */
 	delete_minlc(array, del_array);
 	print_del_array(del_array);
 	
 	printf("NEW ARRAY CREATE\n-> enter number of columns for new array: ");
 	scanf("%d", &C);
-	int new_array[N-1][C]; // ВТОРАЯ МАТРИЦА
+	int new_array[N-1][C]; /* ВТОРАЯ МАТРИЦА */
 	create_new_array(new_array);
 	
 	multiplication_of_arrays(del_array, new_array);
@@ -58,7 +57,7 @@ int main()
 }
 
 
-//FUNCTIONS
+/* FUNCTIONS */
 
 
 void reverse_first_last(int array[][N])
@@ -173,7 +172,7 @@ void create_new_array(int new_array[][C])
 
 void multiplication_of_arrays(int del_array[][N-1], int new_array[][C])
 {
-	int finally_array[M-1][C]; // МАТРИЦА, ПОЛУЧИВШАЯСЯ В РЕЗУЛЬТАТЕ УМНОЖЕНИЯ ПЕРВОЙ И ВТОРОЙ МАТРИЦ
+	int finally_array[M-1][C]; /* МАТРИЦА, ПОЛУЧИВШАЯСЯ В РЕЗУЛЬТАТЕ УМНОЖЕНИЯ ПЕРВОЙ И ВТОРОЙ МАТРИЦ */
 	int i, j, k;
 	for(i = 0; i < M - 1; i ++)
 		for(j = 0; j < C; j++)
