@@ -1,6 +1,6 @@
-// turing.c
-// программа не принимает аргументов
-// считывание инструкций для выполнения программы осуществляется из файла code.txt, находящегося в одной папке с исполняемой программой
+/* turing.c
+ программа не принимает аргументов
+ считывание инструкций для выполнения программы осуществляется из файла code.txt, находящегося в одной папке с исполняемой программой */
 
 
 #include<stdio.h>
@@ -8,15 +8,15 @@
 #include<stdlib.h>
 #include<ctype.h>
 
-struct memory_struct{ // структура для представления памяти
+struct memory_struct{ /* структура для представления памяти */
 	int data;
 	struct memory_struct *next;
 	struct memory_struct *previous;
 };
 
-struct code{ //структура для хранения кода(1 экземпляр = 1 строка кода)
-	int index; // номер строки
-	char opr[100]; // операция
+struct code{ /*структура для хранения кода(1 экземпляр = 1 строка кода) */
+	int index; /* номер строки */
+	char opr[100]; /* операция */
 	struct code *prev;
 	struct code *next;
 };
@@ -27,21 +27,25 @@ typedef Code * CodePtr;
 typedef struct memory_struct Memory;
 typedef Memory * MemoryPtr;
 
-void	operation(char *); // определяет тип операции в данной строке кода и выполняет её
-int 	isoperation(char *); // возвращает true, если дананя строка является командой
-void	add(MemoryPtr *, int); // добавляет новую ячейку памяти в начало или конец "ленты памяти"
-void	addc(CodePtr *, char *); // добавляет новую строку кода в конец списка
-void	move_to(CodePtr *, int); // перемещает указатель с текущей команды в коде на указанную
+void	operation(char *); /* определяет тип операции в данной строке кода и выполняет её */
+int 	isoperation(char *); /* возвращает true, если дананя строка является командой */
+void	add(MemoryPtr *, int); /* добавляет новую ячейку памяти в начало или конец "ленты памяти" */
+void	addc(CodePtr *, char *); /* добавляет новую строку кода в конец списка */
+void	move_to(CodePtr *, int); /* перемещает указатель с текущей команды в коде на указанную */
 
 #define ERROR_MESSAGE "ERROR"
 
-MemoryPtr memory = NULL; // "лента памяти"
-CodePtr cd = NULL; // указатель на список, содержащий код выполняемой программы
+MemoryPtr memory = NULL; /* "лента памяти" */
+CodePtr cd = NULL; /* указатель на список, содержащий код выполняемой программы */
+
+int memory_stack[10]; /* стек для хранения адресов блоков begin-end для управления вложенными циклами */
+int stack_pointer; /* указатель на верхний элемент стека */
 
 int main()
 {
+	stack_pointer = 0;
 	FILE *file;
-	char *line, *comment; // line - считывание очередной команды из файла, comment - считывание комментариев из файла
+	char *line, *comment; /* line - считывание очередной команды из файла, comment - считывание комментариев из файла */
 	comment = NULL;
 	add(&memory, 0);
 	if((line = malloc(sizeof(char) * 200)) == NULL)
@@ -58,12 +62,12 @@ int main()
 	while(!feof(file))
 	{
 		fscanf(file, "%s", line);
-        if(isoperation(line) == 0 && comment != NULL) // считывание комментариев
+        if(isoperation(line) == 0 && comment != NULL) /* считывание комментариев */
 		{
 			strcat(comment, line);
 			continue;
 		}
-		if(comment != NULL) // добавление комментариев в структуру хранения кода
+		if(comment != NULL) /* добавление комментариев в структуру хранения кода */
 		{
 			addc(&cd, comment);
 			comment = NULL;
@@ -84,7 +88,7 @@ int main()
 	fclose(file);
 	free(line);
 	free(comment);
-	move_to(&cd, 0); // переместить указатель на начало кода
+	move_to(&cd, 0); /* переместить указатель на начало кода */
 	printf("#EXECUTION:\n");
 	do
 	{
@@ -95,7 +99,7 @@ int main()
 }
 
 
-//FUNCTIONS
+/* FUNCTIONS */
 
 
 void operation(char * line)
@@ -122,7 +126,7 @@ void operation(char * line)
 	}
 	else if((strstr(line, "get")) != NULL)
 	{
-		printf(">> ");
+	    printf("\n>> ");
 		scanf("%d", &(memory->data));
 	}
 	else if((strstr(line, "printc")) != NULL)
@@ -138,19 +142,28 @@ void operation(char * line)
 	}
 	else if((strstr(line, "begin")) != NULL)
 	{
-		if(memory->data == 0) // если в текущей ячейке 0, то переместиться на соответствующий end
+		if(memory->data == 0) /* если в текущей ячейке 0, то переместиться на соответствующий end */
 		{
 			while(!strstr(cd->opr, "end"))
 				cd = cd->next;
 		}
+		else if(memory_stack[stack_pointer] != cd->index)
+		{
+			memory_stack[stack_pointer] = cd->index;
+			stack_pointer++;
+		}
 	}
 	else if((strstr(line, "end")) != NULL)
 	{
-		if(memory->data != 0) //если в текущей ячейке не 0, то переместиться на соответствующий begin
+		if(memory->data != 0) /* если в текущей ячейке не 0, то переместиться на соответствующий begin */
 		{
-			while(!strstr(cd->opr, "begin"))
-				cd = cd->prev;
-		}		
+			move_to(&cd, memory_stack[stack_pointer - 1]);
+		}	
+		else
+		{
+			memory_stack[stack_pointer - 1] = 0;
+				stack_pointer--;
+		}	
 	}
 	else if((strstr(line, "*")) != NULL)
 	{
@@ -167,7 +180,7 @@ int isoperation(char *line)
 	else return 0;
 }
 
-void add(MemoryPtr * list, int np) // np - next or previous
+void add(MemoryPtr * list, int np) /* np - next or previous */
 {
 	if(*list == NULL)
 	{
