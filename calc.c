@@ -1,7 +1,7 @@
-// calc.c
-// аргументы передаются через командную строку в main
-// аргументы имеют вид: "X", где X - выражение, которое необходимо посчитать
-// ./a.out "2 2 2 +*"
+/* calc.c
+ аргументы передаются через командную строку в main
+ аргументы имеют вид: "X", где X - выражение, которое необходимо посчитать 
+ ./a.out "2 2 2 +*"     */
 
 
 #include<stdio.h>
@@ -17,8 +17,8 @@ struct Stack {
 typedef struct Stack stack_struct;
 typedef stack_struct *stack;
 
-int    isOperator(char); // проверяет, является ли данный символ оператором
-void   operation(int, int, char); //  выполняет переданную операцию с двумя аргументами, взятыми из стека, и помещает результат операции в стек
+int    isOperator(char); /* проверяет, является ли данный символ оператором */
+void   operation(int, int, char); /*  выполняет переданную операцию с двумя аргументами, взятыми из стека, и помещает результат операции в стек */
 
 void   push(stack *, int);
 int    pop(stack *);
@@ -32,8 +32,8 @@ int main(int argc, char *argv[])
 		printf("No argument for program.\n");
 		exit(-1);
 	}
-    char postfix[256]; // хранит вычисляемое выражение
-	char *str; // хранит очередное считанное из postfix число
+    char postfix[256]; /* хранит вычисляемое выражение */
+	char *str; /* хранит очередное считанное из postfix число */
 	str = malloc(sizeof(char)*30);
 	strncpy(postfix, argv[1], strlen(argv[1]));
 	postfix[strlen(argv[1])] = '\0';
@@ -41,7 +41,7 @@ int main(int argc, char *argv[])
 	j = 0;
 	while(postfix[j] != '\0')
 	{
-		if(isdigit(postfix[j])) // если встречаем в postfix цифру, то считываем ее и все последующие за ней цифры, объединяя их, как единое число, которое помещаем в стек
+		if(isdigit(postfix[j])) /* если встречаем в postfix цифру, то считываем ее и все последующие за ней цифры, объединяя их, как единое число, которое помещаем в стек */
 		{
 			x = 0;
 			while(isdigit(postfix[j]))
@@ -102,7 +102,8 @@ int isOperator(char symbol)
 
 void operation(int x, int y, char c)
 {
-        int result = 0, i = 0;
+        int result;
+		result = 0;
 	switch(c) {
 		case '+': result = y + x; break;
 		case '-': result = y - x; break;
