@@ -24,25 +24,25 @@ int main(int argc, char *argv[])
 	    switch(argv[2][0]) {
 			case 'F': case 'f':
 			if(atof(argv[1]) < -459.67) { 
-			printf("Incorrect arguments.\n"); 
+			printf("Incorrect arguments. (K > 0, C > -273.75, F > -459.67)\n"); 
 			return -1; 
 			} 
 			else printf(F, atof(argv[1]), FC(atof(argv[1])), CK(FC(atof(argv[1])))); break;
 			case 'C': case 'c': 
 			if(atof(argv[1]) < -273.75) { 
-			printf("Incorrect arguments.\n"); 
+			printf("Incorrect arguments. (K > 0, C > -273.75, F > -459.67)\n"); 
 			return -1; 
 			} 
 			else printf(C, atof(argv[1]), CF(atof(argv[1])), CK(atof(argv[1]))); break;
 			case 'K': case 'k': 
 			if(atof(argv[1]) < 0) { 
-			printf("Incorrect arguments.\n"); 
+			printf("Incorrect arguments. (K > 0, C > -273.75, F > -459.67)\n"); 
 			return -1; 
 			} 
 			else printf(K, atof(argv[1]), KC(atof(argv[1])), CF(KC(atof(argv[1])))); break;
 			default:
 			{
-				printf("Incorrect arguments.\n");
+				printf("Incorrect arguments.  (K > 0, C > -273.75, F > -459.67)\n");
 				return -1;
 			}
 			}
@@ -51,8 +51,8 @@ int main(int argc, char *argv[])
 		if(atof(argv[1]) >= 0) printf(FCK, atof(argv[1]), FC(atof(argv[1])), CK(FC(atof(argv[1]))), atof(argv[1]), CF(atof(argv[1])), CK(atof(argv[1])), atof(argv[1]), KC(atof(argv[1])), CF(KC(atof(argv[1]))));
 		else if(atof(argv[1]) >= -273.75) { printf(C, atof(argv[1]), CF(atof(argv[1])), CK(atof(argv[1]))); printf("\n"); printf(F, atof(argv[1]), FC(atof(argv[1])), CK(FC(atof(argv[1])))); }
 		else if(atof(argv[1]) > -459.67) printf(F, atof(argv[1]), FC(atof(argv[1])), CK(FC(atof(argv[1]))));
-		else printf("Incorrect arguments.\n"); 
+		else printf("Incorrect arguments. (K > 0, C > -273.75, F > -459.67)\n"); 
 	}
-	else printf("Incorrect arguments.\n");
+	else printf("Incorrect arguments. (K > 0, C > -273.75, F > -459.67)\n");
 	return 0;
 }
