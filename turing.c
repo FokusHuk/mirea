@@ -50,12 +50,12 @@ int main()
 	add(&memory, 0);
 	if((line = malloc(sizeof(char) * 200)) == NULL)
 	{
-		printf("%s\n", ERROR_MESSAGE);
+		printf("%s%s\n", ERROR_MESSAGE, ": memory error");
 		exit(-1);
 	}
 	if((file = fopen("code.txt", "r")) == NULL)
 	{
-		printf("%s\n", ERROR_MESSAGE);
+		printf("%s%s\n", ERROR_MESSAGE, ": file cant be opened");
 		exit(-1);
 	}
 	printf("#CODE:\n");
@@ -186,7 +186,7 @@ void add(MemoryPtr * list, int np) /* np - next or previous */
 	{
 		if((*list = malloc(sizeof(Memory))) == NULL)
 		{
-			printf("%s in add\n", ERROR_MESSAGE);
+			printf("%s%s in add\n", ERROR_MESSAGE, ": memory error");
 			exit(-1);
 		}
 		(*list)->data = 0;
@@ -196,7 +196,7 @@ void add(MemoryPtr * list, int np) /* np - next or previous */
 		MemoryPtr new_m;
 		if((new_m = malloc(sizeof(Memory))) == NULL)
 		{
-			printf("%s in add\n", ERROR_MESSAGE);
+			printf("%s%s in add\n", ERROR_MESSAGE, ": memory error");
 			exit(-1);
 		}
 		new_m->data = 0;
@@ -221,7 +221,7 @@ void addc(CodePtr *list, char *operator)
 	{
 		if((*list = malloc(sizeof(Code))) == NULL)
 		{
-			printf("%s in addc\n", ERROR_MESSAGE);
+			printf("%s%s in addc\n", ERROR_MESSAGE, ": memory error");
 			exit(-1);
 		}
 		(*list)->index = 0;
@@ -233,7 +233,7 @@ void addc(CodePtr *list, char *operator)
 		CodePtr new_cd;
 		if((new_cd = malloc(sizeof(Code))) == NULL)
 		{
-			printf("%s in addc\n", ERROR_MESSAGE);
+			printf("%s%s in addc\n", ERROR_MESSAGE, ": memory error");
 			exit(-1);
 		}
 		new_cd->index = ((*list)->index) + 1;
