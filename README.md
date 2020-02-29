@@ -1,5 +1,4 @@
 # mirea
-programs from mirea
 
 array_program.c      - программа работы с матрицами
 
